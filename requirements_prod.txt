@@ -3,3 +3,7 @@ wordsegment
 urllib3
 beautifulsoup4
 nltk
+numpy
+scipy
+scikit-learn
+matplotlib

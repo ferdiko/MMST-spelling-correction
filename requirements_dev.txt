@@ -5,3 +5,7 @@ beautifulsoup4
 nltk
 pyspellchecker
 textblob
+numpy
+scipy
+scikit-learn
+matplotlib
