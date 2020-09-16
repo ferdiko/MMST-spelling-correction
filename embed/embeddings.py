@@ -44,7 +44,7 @@ class Loader:
 	def loadGloveModel(self):
 		print("loading glove model")
 		file_path = os.path.dirname(os.path.abspath(__file__))
-		f = open(os.path.join(file_path,'glove/glove.twitter.27B.200d.txt'),'r',encoding='utf-8')
+		f = open(os.path.join(file_path,'glove/glove.twitter.27B.25d.txt'),'r',encoding='utf-8')
 		gloveModel = {}
 		for line in f:
 			splitLines = line.split()
@@ -58,7 +58,7 @@ class Loader:
 	def Create_EmbMatrix(self,GloVe,word_index):
 		Emb_matrix = np.zeros((len(word_index), 200))
 		for i, word in enumerate(word_index):
-			try: 
+			try:
 				Emb_matrix[i] = GloVe[word]
 			except KeyError:
 				Emb_matrix[i] = np.random.normal(scale=0.6, size=(200,))

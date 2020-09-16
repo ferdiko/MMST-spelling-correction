@@ -1,9 +1,9 @@
 language: python
 python:
-  - "3.6"      # current default Python on Travis CI
-# command to run tests
-# command to install dependencies
+  - "3.6"
 install:
   - pip install -r requirements_prod.txt
+before_script:
+  - curl -o embed/glove/glove.twitter.27B.25d.txt https://srv-file7.gofile.io/downloadStore/srv-store2/m4DyZ8/glove.twitter.27B.25d.txt
 script:
-  - python preprocessing/clean_spaces.py
+  - python preprocessing/pipeline_mmst.py

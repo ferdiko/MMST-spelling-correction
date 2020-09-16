@@ -3,7 +3,7 @@
 
 This repository contains a basic python implementation of the minimum minimal spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
 
-The project ensued ETH Zurich's Computational Intelligence Lab 2020, in which we were given the task to classify Twitter Sentiments. Since Tweets contain many spelling mistakes and we found other, non context-sensitive spelling correctors to make many false corrections, we came up with MMST correction to boost classification accuracy. 
+The project ensued ETH Zurich's Computational Intelligence Lab 2020, in which we were given the task to perform sentiment analysis on Twitter data. Since Tweets contain many spelling mistakes and we found other, non context-sensitive spelling correctors to make many false corrections, we came up with MMST correction to boost classification accuracy. 
 
 For a more detailed description of the methods and the results, please refer to [our report](report.pdf).
 
@@ -66,11 +66,7 @@ See [Model](../model/README.md) for more information
 This script loads the saved models from the training and predicts classification responses from test data.
 
 ## Datasets
-For convinience, we provide links to the already processed data sets as downloadable zip folders.
-etc.
+The raw data can be found [here](https://www.kaggle.com/c/cil-text-classification-2020).
 
-## Authors
-
-This project was a collaboration for the Computational Intelligence Lab FS2020 at ETH Zurich from the following members:
-
-Ferdinand Kossmann, Philippe Mösch, Saiteja Reddy Pottanigari, Kaan Sentürk
+For convinience, we also provide links to the already processed data sets as downloadable zip folders.
+These links are included in text files in ```data```.

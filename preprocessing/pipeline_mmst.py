@@ -61,14 +61,14 @@ if __name__ == '__main__':
     pmmst = PipelineMMST()
     file_path = os.path.dirname(os.path.abspath(__file__))
 
-    inp_dir = os.path.join(file_path, '../data/cleaned')
-    inp_neg = os.path.join(inp_dir, 'train_neg.txt')
-    inp_pos = os.path.join(inp_dir, 'train_pos.txt')
-    inp_test = os.path.join(inp_dir, 'test.txt')
+    inp_dir = os.path.join(file_path, '../data/example')
+    inp_neg = os.path.join(inp_dir, 'train_neg_part.txt')
+    inp_pos = os.path.join(inp_dir, 'train_pos_part.txt')
+    # inp_test = os.path.join(inp_dir, 'test.txt')
 
-    out_dir = os.path.join(file_path, '../data/pipeline_mmst')
-    out_neg = os.path.join(out_dir, 'train_neg.txt')
-    out_pos = os.path.join(out_dir, 'train_pos.txt')
-    out_test = os.path.join(out_dir, 'test.txt')
+    out_dir = os.path.join(file_path, '../data/example')
+    out_neg = os.path.join(out_dir, 'train_neg_part_mmst.txt')
+    out_pos = os.path.join(out_dir, 'train_pos_part_mmst.txt')
+    # out_test = os.path.join(out_dir, 'test.txt')
 
-    pmmst.process([inp_neg, inp_pos, inp_test], [out_neg, out_pos, out_test])
+    pmmst.process([inp_neg, inp_pos], [out_neg, out_pos])
