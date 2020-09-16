@@ -2,3 +2,4 @@ pyenchant
 wordsegment
 urllib3
 beautifulsoup4
+nltk

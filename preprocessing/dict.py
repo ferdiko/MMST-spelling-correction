@@ -148,6 +148,11 @@ class Dict:
         return dict
 
     def get_stopwords(self):
+        # get stopwords
+        try:
+            nltk.data.find('stopwords')
+        except LookupError:
+            nltk.download('stopwords')
         stop_words = set(stopwords.words('english'))
         stop_words.add('<user>')
         stop_words.add('<url>')
