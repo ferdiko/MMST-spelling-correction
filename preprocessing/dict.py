@@ -94,7 +94,7 @@ class Dict:
             print(emoticon[i] + " " + description[i])
 
         # save
-        w = csv.writer(open(self.emoticon_path, 'w'))
+        w = csv.writer(open(self.emoticon_path, 'w', encoding="utf-8"))
         for i in range(len(emoticon)):
             w.writerow([emoticon[i], description[i]])
 
@@ -118,7 +118,7 @@ class Dict:
                 slang = i.find('abbr')['title']
                 slang_dict[i.find('span').text[:-2]] = slang
 
-        with open(self.slang_path, 'w+') as file:
+        with open(self.slang_path, 'w+', encoding="utf-8") as file:
             json.dump(slang_dict, file)
 
 
@@ -160,7 +160,7 @@ class Dict:
 
             # get list of bigrams
             bgm = nltk.collocations.BigramAssocMeasures()
-            file_content = open(self.bigram_data, 'r')
+            file_content = open(self.bigram_data, 'r', encoding="utf-8")
             tokens = [nltk.word_tokenize(line) for line in file_content]
             finder = nltk.collocations.BigramCollocationFinder.from_documents(tokens)
             bigram = finder.score_ngrams(bgm.likelihood_ratio)
@@ -171,7 +171,7 @@ class Dict:
                 print(tup)
                 if i == 100:
                     break
-            with open(self.bigram_path, 'w+') as file:
+            with open(self.bigram_path, 'w+', encoding='utf-8') as file:
                 json.dump(dict, file)
 
         else:
