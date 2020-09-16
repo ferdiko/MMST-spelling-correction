@@ -1,5 +1,5 @@
-# Sentiment analysis for Twitter
-[![Build Status](https://travis-ci.com/ferdiko/MMST-correction-for-Twitter-.svg?token=i5SsXwn36wFP2q84fDCb&branch=master)](https://travis-ci.com/ferdiko/MMST-correction-for-Twitter-)
+# MMST spelling correction on Twitter data
+[![Build Status](https://travis-ci.com/ferdiko/MMST-spell-correction.svg?token=i5SsXwn36wFP2q84fDCb&branch=master)](https://travis-ci.com/ferdiko/MMST-spell-correction)
 
 This repository contains a basic python implementation of the minimum minimal spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
 
