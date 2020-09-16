@@ -9,5 +9,6 @@ install:
 before_script:
   - sudo apt-get install libenchant1c2a
   - curl -o embed/glove/glove.twitter.27B.25d.txt https://srv-file7.gofile.io/downloadStore/srv-store2/m4DyZ8/glove.twitter.27B.25d.txt
+# TODO ...
 script:
-  - python preprocessing/pipeline_mmst.py
+  - python -c "exec(\"import sys\nsys.path.append('./preprocessing')\nfrom pipeline_mmst import PipelineMMST\na = PipelineMMST()\")"
