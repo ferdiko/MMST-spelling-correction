@@ -1,7 +1,7 @@
 # Sentiment analysis for Twitter
 Short intro. We provide various preprocessing techniques as well as 4 models.
 
-Please refer to XY paper for a description of the methods used, refer to Structure for a high level overview over the repository, refer to Prerequisits for installation instructions.
+For a more detailed description of the project and the results, please refer to [our report](report.pdf).
 
 ## Installation
 
