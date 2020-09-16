@@ -1,7 +1,13 @@
 # Sentiment analysis for Twitter
-Short intro. We provide various preprocessing techniques as well as 4 models.
+[![Build Status](https://travis-ci.com/ferdiko/MMST-correction-for-Twitter-.svg?token=i5SsXwn36wFP2q84fDCb&branch=master)](https://travis-ci.com/ferdiko/MMST-correction-for-Twitter-)
 
-For a more detailed description of the project and the results, please refer to [our report](report.pdf).
+This repository contains a basic python implementation of the minimum minimal spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
+
+The project ensued ETH Zurich's Computational Intelligence Lab 2020, in which we were given the task to classify Twitter Sentiments. Since Tweets contain many spelling mistakes and we found other, non context-sensitive spelling correctors to make many false corrections, we came up with MMST correction to boost classification accuracy. 
+
+For a more detailed description of the methods and the results, please refer to [our report](report.pdf).
+
+MMST spelling correction was evaluated in terms of classification accuracy when running a model on data corrected with MMST versus other spelling correctors. It hereby improved accuracy compared to [pyenchant](https://pyenchant.github.io/pyenchant/) correction and no correction. Other spelling correctors remain to be tried out.
 
 ## Installation
 
