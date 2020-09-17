@@ -1,5 +1,5 @@
 # MMST spelling correction on Twitter data
-[![Build Status](https://travis-ci.com/ferdiko/MMST-spell-correction.svg?token=i5SsXwn36wFP2q84fDCb&branch=master)](https://travis-ci.com/ferdiko/MMST-spell-correction)
+[![Build Status](https://travis-ci.com/ferdiko/MMST-spelling-correction.svg?branch=master)](https://travis-ci.com/ferdiko/MMST-spelling-correction)
 
 This repository contains a basic python implementation of the minial minimum spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
 
