@@ -1,13 +1,15 @@
 # MMST spelling correction on Twitter data
 [![Build Status](https://travis-ci.com/ferdiko/MMST-spell-correction.svg?token=i5SsXwn36wFP2q84fDCb&branch=master)](https://travis-ci.com/ferdiko/MMST-spell-correction)
 
-This repository contains a basic python implementation of the minimum minimal spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
+This repository contains a basic python implementation of the minial minimum spanning tree (MMST) spelling corrector. MMST is a novel context sensitive spelling corrector that exploits clustering of similar words in GloVe embeddings. This enables it to decide on the right word for correction given several candidates.
 
-The project ensued ETH Zurich's Computational Intelligence Lab 2020, in which we were given the task to perform sentiment analysis on Twitter data. Since Tweets contain many spelling mistakes and we found other, non context-sensitive spelling correctors to make many false corrections, we came up with MMST correction to boost classification accuracy. 
+The implementation of the MMST algorithm is contained in ```embed/mmst.py```. A multithreaded manager class, that applies the correction to a text file is contained in ```preprocessing/spelling_correction_mmst.py```, a pipeline applying MMST correction and further performance enhancing preprocessing is contained in ```preprocessing/pipeline_mmst.py```.
+
+The project ensued ETH Zurich's Computational Intelligence Lab 2020, in which we were given the task to perform sentiment analysis on Twitter data. We hereby came up with MMST correction since Tweets have many misspellings which often are non-trivial to correct. We furthermore scraped slang and abbreviation dictionaries, such that correctly spelled slang/abbreviations is not falsely corrected to standard English. The repository also contains several models we used for classification.
 
 For a more detailed description of the methods and the results, please refer to [our report](report.pdf).
 
-MMST spelling correction was evaluated in terms of classification accuracy when running a model on data corrected with MMST versus other spelling correctors. It hereby improved accuracy compared to [pyenchant](https://pyenchant.github.io/pyenchant/) correction and no correction. Other spelling correctors remain to be tried out.
+MMST spelling correction was evaluated in terms of classification accuracy when running a model on data corrected with MMST versus baselines. It hereby led to an improved accuracy compared to all spelling correction libraries we benchmarked, as well as to no correction.
 
 ## Installation
 
@@ -66,7 +68,7 @@ See [Model](../model/README.md) for more information
 This script loads the saved models from the training and predicts classification responses from test data.
 
 ## Datasets
-The raw data can be found [here](https://www.kaggle.com/c/cil-text-classification-2020).
+The unprocessed data can be found [here](https://www.kaggle.com/c/cil-text-classification-2020).
 
 For convinience, we also provide links to the already processed data sets as downloadable zip folders.
-These links are included in text files in ```data```.
+These links are included in text files in ```data```. Further description of the processing applied can be found in the [report](report.pdf) or the [readme](preprocessing/README.md) of ```preprocessing```.
