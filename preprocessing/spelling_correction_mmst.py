@@ -33,21 +33,26 @@ class SpellingCorrectionMMST(PreprocessingInterface):
 
         split_size = int(self.nb/self.cores) + 1
         for i in range(self.cores):
-            with open(self.input + '_' + str(i), "w+") as f:
+            with open(self.input + '_{}'.format(i), "w+") as f:
                 start = min(i*split_size, self.nb)
                 end = min((i+1)*split_size, self.nb)
                 for j in range(start, end):
                     f.write(sentences[j])
 
 
-    def merge_outputs(self, delete=True):
+    def merge_and_delete(self, delete_output=True):
+        # merge split output files (and delete split files)
         out = open(self.output, "w+")
         for i in range(self.cores):
-            with open(self.output + '_' + str(i), "r") as f:
+            with open(self.output + '_{}'.format(i), "r") as f:
                 for line in f:
                     out.write(line)
-            if delete:
-                os.remove(self.input + '_' + str(i))
+            if delete_output:
+                os.remove(self.output + '_{}'.format(i))
+
+        # delete split input files
+        for i in range(self.cores):
+            os.remove(self.input + '_{}'.format(i))
 
 
     def checker(self, id, slang_dict, stop_words, emoji_dict, restart=False):
@@ -57,11 +62,11 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         g = MMST(d, slang_dict, stop_words, emoji_dict)
 
         # open input file, get output file path
-        input = open(self.input + '_' + str(id), "r")
-        output_path = self.output + '_' + str(id)
+        input = open(self.input + '_{}'.format(id), "r")
+        output_path = self.output + '_{}'.format(id)
 
         # check how many lines have already been processed in a previous run
-        if restart:
+        if restart or not os.path.isfile(output_path):
             start = 0
             open_mode = "w+"
         else:
@@ -95,7 +100,7 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         emoji_dict = dict.get_emoticon()
 
         # process input files
-        ts = [threading.Thread(target=self.checker, args=(i, slang_dict, stop_words, emoji_dict, True)) for i in range(self.cores)]
+        ts = [threading.Thread(target=self.checker, args=(i, slang_dict, stop_words, emoji_dict)) for i in range(self.cores)]
 
         for t in ts:
             t.start()
@@ -103,5 +108,5 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         for t in ts:
             t.join()
 
-        # merge num_core output files into one
-        self.merge_outputs(delete=False)
+        # merge num_core output files into one, delete the split files
+        self.merge_and_delete()
