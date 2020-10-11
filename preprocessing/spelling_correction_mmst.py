@@ -1,5 +1,6 @@
 import os
 import sys
+from itertools import islice
 
 from preprocessing_interface import PreprocessingInterface
 import enchant
@@ -30,72 +31,72 @@ class SpellingCorrectionMMST(PreprocessingInterface):
                 sentences.append(line)
                 self.nb += 1
 
-        split_size = int(self.nb/self.cores)
-        for i in range(self.cores-1):
+        split_size = int(self.nb/self.cores) + 1
+        for i in range(self.cores):
             with open(self.input + '_' + str(i), "w+") as f:
-                for j in range(i*split_size, (i+1)*split_size):
+                start = min(i*split_size, self.nb)
+                end = min((i+1)*split_size, self.nb)
+                for j in range(start, end):
                     f.write(sentences[j])
 
-        i = self.cores-1
-        with open(self.input + '_' + str(i), "w+") as f:
-            for j in range(i*split_size, self.nb):
-                f.write(sentences[j])
 
-
-    def merge_outputs(self):
+    def merge_outputs(self, delete=True):
         out = open(self.output, "w+")
         for i in range(self.cores):
             with open(self.output + '_' + str(i), "r") as f:
                 for line in f:
                     out.write(line)
+            if delete:
+                os.remove(self.input + '_' + str(i))
 
-            #os.remove(self.input + '_' + str(i))
 
-
-    def checker(self, id, d, slang_dict, stop_words, emoji_dict):
-        first = True
+    def checker(self, id, slang_dict, stop_words, emoji_dict, restart=False):
+        # get enchant dict, instantiate MMSt
+        broker = enchant.Broker()
+        d = broker.request_dict("en_US")
         g = MMST(d, slang_dict, stop_words, emoji_dict)
+
+        # open input file, get output file path
         input = open(self.input + '_' + str(id), "r")
+        output_path = self.output + '_' + str(id)
+
         '''
-        output_r = open(self.output + '_' + str(id), "r+")
-        already_written = 0
-        for line in output_r:
-            already_written += 1
-        output_r.close()
+        # check how many lines have already been processed in a previous run
+        if restart:
+            start = 0
+        else:
+            start = sum(1 for line in open(output_path))
         '''
 
-        prog = 0
-        with open(self.output + '_' + str(id), "a+") as f:
+        # process remaining lines
+        with open(output_path, "w+") as f:
+            #for line in islice(input, start, None):
             for line in input:
-                '''
-                prog += 1
-                if prog <= already_written:
-                    continue
-                '''
-                if first:
-                    print(line)
-                    first = False
                 try:
                     tmp = g.input_sentence(line, self.load, verbose=False)
                     f.write(tmp)
                 except IndexError:
-                    print("error " + line)
+                    print("ERROR: " + line)
+
 
     def run(self):
         super().run()
 
+        # split input file into num_core many files
+        self.prep_input()
+
+        # get slang, stop words and emoticon dict
+        # NOTE: For now, we load these dicts here (shared between threads)
+        # but we load one enchant dict per thread. This has concurrency reasons.
+        # We could load these dicts also one per thread, but we need to do
+        # some adjustements.
         dict = Dict()
         slang_dict = dict.get_slang()
         stop_words = dict.get_stopwords()
         emoji_dict = dict.get_emoticon()
-        d = enchant.Dict("en_US")
 
-        self.prep_input()
-
-        # dictionnary defined in MMST __init___
-        share = floor(self.nb / self.cores)
-
-        ts = [threading.Thread(target=self.checker, args=(i, d, slang_dict, stop_words, emoji_dict)) for i in range(self.cores)]
+        # process input files
+        ts = [threading.Thread(target=self.checker, args=(i, slang_dict, stop_words, emoji_dict)) for i in range(self.cores)]
 
         for t in ts:
             t.start()
@@ -103,6 +104,5 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         for t in ts:
             t.join()
 
-        print("merging")
-
-        self.merge_outputs()
+        # merge num_core output files into one
+        self.merge_outputs(delete=False)
