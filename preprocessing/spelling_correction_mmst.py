@@ -60,18 +60,17 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         input = open(self.input + '_' + str(id), "r")
         output_path = self.output + '_' + str(id)
 
-        '''
         # check how many lines have already been processed in a previous run
         if restart:
             start = 0
+            open_mode = "w+"
         else:
             start = sum(1 for line in open(output_path))
-        '''
+            open_mode = "a+"
 
         # process remaining lines
-        with open(output_path, "w+") as f:
-            #for line in islice(input, start, None):
-            for line in input:
+        with open(output_path, open_mode) as f:
+            for line in islice(input, start, None):
                 try:
                     tmp = g.input_sentence(line, self.load, verbose=False)
                     f.write(tmp)
@@ -96,7 +95,7 @@ class SpellingCorrectionMMST(PreprocessingInterface):
         emoji_dict = dict.get_emoticon()
 
         # process input files
-        ts = [threading.Thread(target=self.checker, args=(i, slang_dict, stop_words, emoji_dict)) for i in range(self.cores)]
+        ts = [threading.Thread(target=self.checker, args=(i, slang_dict, stop_words, emoji_dict, True)) for i in range(self.cores)]
 
         for t in ts:
             t.start()
